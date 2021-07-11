@@ -22,14 +22,12 @@ def save_record_to_csv(record, filepath, create_new_file=False):
     """Save an individual record to file; set `new_file` flag to `True` to generate new file"""
     header = ["JobTitle", "Company", "Location", "Summary", "PostDate", "JobUrl"]
     if create_new_file:
-        print(filepath)
         wb = load_workbook(filename=filepath)
-        # wb.remove(wb.worksheets[0])
+        wb.remove(wb.worksheets[0])
         wb.create_sheet()
         ws = wb.worksheets[0]
-        # ws.append(header)
+        ws.append(header)
         wb.save(filepath)
-
     else:
         wb = load_workbook(filename=filepath)
         # Select First Worksheet
@@ -106,7 +104,7 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
     unique_jobs = set()  # track job urls to avoid collecting duplicate records
     print("Starting to scrape indeed for `{}` in `{}`".format(job_title, job_location))
     url = generate_url(domain, date_posted, job_title, job_location)
-    # save_record_to_csv(None, filepath, create_new_file=True)
+    save_record_to_csv(None, filepath, create_new_file=True)
     page = 1
 
     while page < 3:

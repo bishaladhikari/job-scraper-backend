@@ -15,14 +15,12 @@ def save_record_to_csv(record, filepath, create_new_file=False):
     """Save an individual record to file; set `new_file` flag to `True` to generate new file"""
     header = ["JobTitle", "Company", "Location", "Summary", "PostDate", "JobUrl"]
     if create_new_file:
-        print(filepath)
         wb = load_workbook(filename=filepath)
-        # wb.remove(wb.worksheets[0])
+        wb.remove(wb.worksheets[0])
         wb.create_sheet()
         ws = wb.worksheets[0]
-        # ws.append(header)
+        ws.append(header)
         wb.save(filepath)
-
     else:
         wb = load_workbook(filename=filepath)
         # Select First Worksheet
@@ -31,16 +29,24 @@ def save_record_to_csv(record, filepath, create_new_file=False):
         wb.save(filepath)
 
 
-def givemejson(title):
-    url = 'https://www.gulftalent.com/api/jobs/search?condensed=false&config%5Bfilters%5D=ENABLED&config%5Bresults%5D=UNFILTERED&filters%5Bcountry%5D%5B0%5D=10111111000000&include_scraped=1&version=2'
+def givemejson(title, loc):
+    url = 'https://www.gulftalent.com/api/jobs/search?condensed=false&config%5Bfilters%5D=ENABLED&config%5Bresults%5D=UNFILTERED&filters%5Bcountry%5D%5B0%5D=' + loc + '&include_scraped=1&version=2'
     req = requests.get(url + '&limit=10&search_keyword=' + title )
     return req.json()['results']['data']
 
 
 def main(domain, date_posted, job_title, job_location, filepath, email=None):
+    loc = '10111111000000'
+    if 'dubai' in job_location.lower():
+        print(job_location.lower())
+        loc = '10111111000000'
+    if 'qatar' in job_location.lower():
+        print(job_location.lower())
+        loc = '10111114000000'
+
     job_base_url = 'https://www.gulftalent.com'
     save_record_to_csv(None, filepath, create_new_file=True)
-    jobs = givemejson(job_title)
+    jobs = givemejson(job_title, loc)
     for job in jobs:
         datetime_time = datetime.fromtimestamp(job['posted_date_ts'])
         d1 = datetime.now()
