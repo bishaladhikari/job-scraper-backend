@@ -33,6 +33,7 @@ def save_record_to_csv(record, filepath, create_new_file=False):
 
 
 def collect_job_cards_from_page(html):
+    print(html)
     soup = BeautifulSoup(html, 'html.parser')
     cards = soup.find_all('div', 'job-search-card')
     return cards, soup
@@ -50,6 +51,33 @@ def request_jobs_from_indeed(url):
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "en"
     }
+    client = requests.Session()
+
+    HOMEPAGE_URL = 'https://www.linkedin.com?allowUnsupportedBrowser=true'
+    LOGIN_URL = 'https://www.linkedin.com/uas/login-submit?allowUnsupportedBrowser=true'
+
+    html = client.get(HOMEPAGE_URL).content
+    soup = BeautifulSoup(html,'html.parser')
+    csrf = soup.find('input',{'name':'loginCsrfParam'})['value']
+    print(csrf)
+
+
+
+
+
+
+
+
+
+    login_information = {
+        'session_key':'prabin.paudel60@gmail.com',
+        'session_password':'',
+        'loginCsrfParam': csrf,
+    }
+
+    client.post(LOGIN_URL, data=login_information)
+    print(client)
+
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         return response.text
