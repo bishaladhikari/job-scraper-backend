@@ -106,7 +106,7 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
     }
     HOMEPAGE_URL = 'https://www.linkedin.com?allowUnsupportedBrowser=true'
     # LOGIN_URL = 'https://www.linkedin.com/uas/login-submit?allowUnsupportedBrowser=true'
-    LOGIN_URL = 'https://www.linkedin.com/checkpoint/rm/sign-in-another-account'
+    LOGIN_URL = 'https://www.linkedin.com/uas/login-submit'
 
     html = session.get(HOMEPAGE_URL, headers=headers).content
     soup = BeautifulSoup(html, 'html.parser')
@@ -149,11 +149,11 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
         cards = collect_job_cards_from_page(soup, html)
         for card in cards:
             print(card)
-            record = extract_job_card_data(card)
-            if not record[-1] in unique_jobs:
-                save_record_to_csv(record, filepath)
-                unique_jobs.add(record[-1])
-        sleep_for_random_interval()
+        #     record = extract_job_card_data(card)
+        #     if not record[-1] in unique_jobs:
+        #         save_record_to_csv(record, filepath)
+        #         unique_jobs.add(record[-1])
+        # sleep_for_random_interval()
         url = find_next_page(soup)
         if not url:
             break
@@ -170,12 +170,12 @@ if __name__ == '__main__':
 
     # include email settings if you want to email the file
     # currently setup for GMAIL... see notes above.
-    email_settings = EmailCredentials(
-        username='email@gmail.com',
-        password='password',
-        sender='from@gmail.com',
-        recipient='to@gmail.com'
-    )
+    # email_settings = EmailCredentials(
+    #     username='email@gmail.com',
+    #     password='password',
+    #     sender='from@gmail.com',
+    #     recipient='to@gmail.com'
+    # )
 
     # using email settings
     # main(title, loc, path, email_settings)
