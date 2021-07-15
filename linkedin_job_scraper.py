@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 from random import random
+from selenium import webdriver
 from time import sleep
 from email.message import EmailMessage
 from collections import namedtuple
@@ -32,11 +33,11 @@ def save_record_to_csv(record, filepath, create_new_file=False):
         wb.save(filepath)
 
 
-def collect_job_cards_from_page(html):
-    print(html)
-    soup = BeautifulSoup(html, 'html.parser')
+def collect_job_cards_from_page(soup,html):
+    # print(html)
+    # soup = BeautifulSoup(html, 'html.parser')
     cards = soup.find_all('div', 'job-search-card')
-    return cards, soup
+    return cards
 
 
 def sleep_for_random_interval():
@@ -44,41 +45,14 @@ def sleep_for_random_interval():
     sleep(seconds)
 
 
-def request_jobs_from_indeed(url):
+def request_jobs_from_indeed(session,url):
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
         "Accept-Encoding": "gzip, deflate",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "en"
     }
-    client = requests.Session()
-
-    HOMEPAGE_URL = 'https://www.linkedin.com?allowUnsupportedBrowser=true'
-    LOGIN_URL = 'https://www.linkedin.com/uas/login-submit?allowUnsupportedBrowser=true'
-
-    html = client.get(HOMEPAGE_URL).content
-    soup = BeautifulSoup(html,'html.parser')
-    csrf = soup.find('input',{'name':'loginCsrfParam'})['value']
-    print(csrf)
-
-
-
-
-
-
-
-
-
-    login_information = {
-        'session_key':'prabin.paudel60@gmail.com',
-        'session_password':'',
-        'loginCsrfParam': csrf,
-    }
-
-    client.post(LOGIN_URL, data=login_information)
-    print(client)
-
-    response = requests.get(url, headers=headers)
+    response = session.get(url, headers=headers)
     if response.status_code == 200:
         return response.text
     else:
@@ -123,6 +97,45 @@ def extract_job_card_data(card):
 
 
 def main(domain, date_posted, job_title, job_location, filepath, email=None):
+    session = requests.Session()
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Language": "en"
+    }
+    HOMEPAGE_URL = 'https://www.linkedin.com?allowUnsupportedBrowser=true'
+    # LOGIN_URL = 'https://www.linkedin.com/uas/login-submit?allowUnsupportedBrowser=true'
+    LOGIN_URL = 'https://www.linkedin.com/checkpoint/rm/sign-in-another-account'
+
+    html = session.get(HOMEPAGE_URL, headers=headers).content
+    soup = BeautifulSoup(html, 'html.parser')
+    csrf = soup.find('input', {'name': 'loginCsrfParam'})['value']
+    print(csrf)
+
+    login_information = {
+        'session_key': 'actionbishal98130@gmail.com',
+        'session_password': 'actioncut98130',
+        'loginCsrfParam': csrf,
+        'trk': 'guest_homepage-basic_sign-in-submit',
+    }
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+    }
+    x= session.post(LOGIN_URL, headers=headers, data=login_information)
+    print(x)
+    # options = webdriver.ChromeOptions()
+    # options.add_argument('--incognito')
+    # driver = webdriver.Chrome(options=options)
+    # driver.get('https://www.linkedin.com/checkpoint/rm/sign-in-another-account')
+    # driver.maximize_window()
+    # username = driver.find_element_by_id('username')
+    # username.send_keys('actionbishal98130@gmail.com')
+    # password = driver.find_element_by_id('password')
+    # password.send_keys('actioncut98130')
+    # log_in_button = driver.find_element_by_class_name('from__button--floating')
+    # log_in_button.click()
+    sleep(3)
     unique_jobs = set()  # track job urls to avoid collecting duplicate records
     print("Starting to scrape indeed for `{}` in `{}`".format(job_title, job_location))
     url = generate_url(domain, date_posted, job_title, job_location)
@@ -130,11 +143,12 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
 
     while True:
         print(url)
-        html = request_jobs_from_indeed(url)
+        html = request_jobs_from_indeed(session,url)
         if not html:
             break
-        cards, soup = collect_job_cards_from_page(html)
+        cards = collect_job_cards_from_page(soup, html)
         for card in cards:
+            print(card)
             record = extract_job_card_data(card)
             if not record[-1] in unique_jobs:
                 save_record_to_csv(record, filepath)
