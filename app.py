@@ -7,7 +7,7 @@ from flask import request
 from flask.helpers import send_file, send_from_directory
 from flask_cors import CORS, cross_origin
 import indeed_job_scraper
-import linkedin_job_scraper
+from linkedin_job_scraper import Linkedin
 from decouple import config
 import gulftalent_job_scraper
 
@@ -32,7 +32,7 @@ def scraper():
     title = request.args.get('title')
     loc = request.args.get('loc')
     if 'linkedin' in domain:
-        linkedin_job_scraper.main("linkedin.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
+        Linkedin.Scrape(title, loc, OUTPUT_DIR + 'results.xlsx', date_posted  )
     elif 'indeed' in domain:
         indeed_job_scraper.main("ae.indeed.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     else:
