@@ -105,8 +105,7 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
         "Accept-Language": "en"
     }
     HOMEPAGE_URL = 'https://www.linkedin.com?allowUnsupportedBrowser=true'
-    # LOGIN_URL = 'https://www.linkedin.com/uas/login-submit?allowUnsupportedBrowser=true'
-    LOGIN_URL = 'https://www.linkedin.com/checkpoint/rm/sign-in-another-account'
+    LOGIN_URL = 'https://www.linkedin.com/uas/login-submit?allowUnsupportedBrowser=true'
 
     html = session.get(HOMEPAGE_URL, headers=headers).content
     soup = BeautifulSoup(html, 'html.parser')
@@ -124,17 +123,8 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
     }
     x= session.post(LOGIN_URL, headers=headers, data=login_information)
     print(x)
-    # options = webdriver.ChromeOptions()
-    # options.add_argument('--incognito')
-    # driver = webdriver.Chrome(options=options)
-    # driver.get('https://www.linkedin.com/checkpoint/rm/sign-in-another-account')
-    # driver.maximize_window()
-    # username = driver.find_element_by_id('username')
-    # username.send_keys('actionbishal98130@gmail.com')
-    # password = driver.find_element_by_id('password')
-    # password.send_keys('actioncut98130')
-    # log_in_button = driver.find_element_by_class_name('from__button--floating')
-    # log_in_button.click()
+    x = session.get('https://www.linkedin.com/jobs/search/?f_TPR=None&keywords=developer&location=dubai', headers=headers)
+    print(x.text)
     sleep(3)
     unique_jobs = set()  # track job urls to avoid collecting duplicate records
     print("Starting to scrape indeed for `{}` in `{}`".format(job_title, job_location))
@@ -144,6 +134,7 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
     while True:
         print(url)
         html = request_jobs_from_indeed(session,url)
+        # print(html)
         if not html:
             break
         cards = collect_job_cards_from_page(soup, html)
