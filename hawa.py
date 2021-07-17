@@ -2,8 +2,8 @@ import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 options = webdriver.ChromeOptions()
-options.add_argument('--headless')
-driver = webdriver.Chrome( executable_path='C:/chrome_driver/chromedriver.exe',options=options)
+# options.add_argument('--headless')
+driver = webdriver.Chrome( executable_path="C:\\Users\\Bishal\\Downloads\chromedriver_win32\\chromedriver.exe",options=options)
 
 def url(title, location):
     return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
@@ -22,7 +22,7 @@ def login():
 
 def login_code(code):
     el = driver.find_element_by_id('input__email_verification_pin')
-    el.send_keys(str(code))
+    el.send_keys(code)
     el.send_keys(Keys.ENTER)
     print('done')
 
