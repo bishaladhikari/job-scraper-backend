@@ -8,15 +8,16 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from decouple import config
 
-options = webdriver.ChromeOptions()
-options.add_argument('--headless')
-driver = webdriver.Chrome(options=options)
+
 
 class Linkedin:
   _isLogged = False
   def url(title, location):
     return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
   def login(a):
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    driver = webdriver.Chrome(options=options)
     print('Logging in')
     mainUrl = 'https://www.linkedin.com'
     LINKEDIN_EMAIL = config('LINKEDIN_EMAIL', '')
