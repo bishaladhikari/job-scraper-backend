@@ -8,8 +8,8 @@ driver = webdriver.Chrome( executable_path="C:\\Users\\Bishal\\Downloads\chromed
 def url(title, location):
     return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
 
-email = 'kawasotihero@gmail.com'
-password = 'HP!65j.GKVXxe-?'
+email = 'kolibew407@ovooovo.com'
+password = 'actioncut98130'
 
 def login():
     driver.get("https://www.linkedin.com")
