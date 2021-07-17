@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 options = webdriver.ChromeOptions()
 # options.add_argument('--headless')
-driver = webdriver.Chrome(executable_path="C:\\Users\\Bishal\\Downloads\chromedriver_win32\\chromedriver.exe",options=options)
+driver = webdriver.Chrome(options=options)
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
