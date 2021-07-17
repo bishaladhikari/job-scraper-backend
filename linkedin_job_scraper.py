@@ -26,11 +26,14 @@ class Linkedin:
     email = LINKEDIN_EMAIL
     password = LINKEDIN_PASSWORD
 
-    driver.get("https://www.linkedin.com")
-    driver.find_element_by_id('session_key').send_keys(email)
-    el = driver.find_element_by_id('session_password')
-    el.send_keys(password)
-    el.send_keys(Keys.ENTER)
+    try:
+      driver.get("https://www.linkedin.com")
+      driver.find_element_by_id('session_key').send_keys(email)
+      el = driver.find_element_by_id('session_password')
+      el.send_keys(password)
+      el.send_keys(Keys.ENTER)
+    except:
+      pass
     driver.get(Linkedin.url(title, loc))
     print('Scrapping this url ' + Linkedin.url(title, loc))
     job_cards = bs(driver.page_source, 'html.parser').find_all('li', {'class': 'jobs-search-results__list-item'})
