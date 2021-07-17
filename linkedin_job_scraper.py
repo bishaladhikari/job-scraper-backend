@@ -59,7 +59,7 @@ class Linkedin:
         job_url = ''
 
       record = job_title, company, location, job_summary, post_date, job_url
-      Linkedin.save_record_to_csv(record, output)
+      Linkedin.save_record_to_csv(record, output,True)
     driver.close()
 
   def save_record_to_csv(record, filepath, create_new_file=False):
