@@ -9,7 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from decouple import config
 
 options = webdriver.ChromeOptions()
-# options.add_argument('--headless')
+options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
 class Linkedin:
