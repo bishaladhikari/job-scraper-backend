@@ -18,11 +18,6 @@ class Linkedin:
   def url(title, location):
     return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
 
-  driver.get("https://www.linkedin.com")
-  driver.find_element_by_id('session_key').send_keys(email)
-  el = driver.find_element_by_id('session_password')
-  el.send_keys(password)
-  el.send_keys(Keys.ENTER)
 
   def Scrape(title, loc, output, date_posted):
     mainUrl = 'https://www.linkedin.com'
@@ -34,6 +29,11 @@ class Linkedin:
 
 
     driver.get(Linkedin.url(title, loc))
+    driver.get("https://www.linkedin.com")
+    driver.find_element_by_id('session_key').send_keys(email)
+    el = driver.find_element_by_id('session_password')
+    el.send_keys(password)
+    el.send_keys(Keys.ENTER)
     print('Scrapping this url ' + Linkedin.url(title, loc))
     job_cards = bs(driver.page_source, 'html.parser').find_all('li', {'class': 'jobs-search-results__list-item'})
     print(job_cards)
