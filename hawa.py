@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 options = webdriver.ChromeOptions()
 # options.add_argument('--headless')
-driver = webdriver.Chrome( executable_path="C:\\Users\\Bishal\\Downloads\chromedriver_win32\\chromedriver.exe",options=options)
+driver = webdriver.Chrome( options=options)
 
 def url(title, location):
     return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
