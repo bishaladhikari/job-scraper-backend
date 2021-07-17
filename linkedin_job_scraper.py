@@ -32,6 +32,7 @@ class Linkedin:
     driver.get(Linkedin.url(title, loc))
     print('Scrapping this url ' + Linkedin.url(title, loc))
     job_cards = bs(driver.page_source, 'html.parser').find_all('li', {'class': 'jobs-search-results__list-item'})
+    Linkedin.save_record_to_csv(None, output)
     for job in job_cards:
       try:
         job_title = job.find('a', {'class': 'job-card-list__title'}).text.strip()
@@ -59,7 +60,7 @@ class Linkedin:
         job_url = ''
 
       record = job_title, company, location, job_summary, post_date, job_url
-      Linkedin.save_record_to_csv(record, output,True)
+      Linkedin.save_record_to_csv(record, output)
     driver.close()
 
   def save_record_to_csv(record, filepath, create_new_file=False):
