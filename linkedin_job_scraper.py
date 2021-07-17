@@ -60,6 +60,7 @@ class Linkedin:
 
       record = job_title, company, location, job_summary, post_date, job_url
       Linkedin.save_record_to_csv(record, output)
+    driver.close()
 
   def save_record_to_csv(record, filepath, create_new_file=False):
     header = ["JobTitle", "Company", "Location", "Summary", "PostDate", "JobUrl"]

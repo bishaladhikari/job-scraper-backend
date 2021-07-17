@@ -11,6 +11,7 @@ email = 'kolibew407@ovooovo.com'
 password = 'actioncut98130'
 
 def login():
+    print("logging in")
     driver.get("https://www.linkedin.com")
     driver.find_element_by_id('session_key').send_keys(email)
     el = driver.find_element_by_id('session_password')
@@ -32,5 +33,6 @@ login()
 input = input('Inter Code: ')
 login_code(input)
 print(driver.page_source)
+driver.close()
 
 
