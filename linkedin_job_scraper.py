@@ -26,7 +26,7 @@ class Linkedin:
   el = driver.find_element_by_id('session_password')
   el.send_keys(password)
   el.send_keys(Keys.ENTER)
-  Scrape('developer', 'dubai', 'output.xlsx', 'acs')
+  # Scrape('developer', 'dubai', 'output.xlsx', 'acs')
 
   def Scrape(title, loc, output, date_posted):
     driver.get(Linkedin.url(title, loc))
