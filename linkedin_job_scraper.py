@@ -33,11 +33,11 @@ def save_record_to_csv(record, filepath, create_new_file=False):
         wb.save(filepath)
 
 
-def collect_job_cards_from_page(soup,html):
-    # print(html)
-    # soup = BeautifulSoup(html, 'html.parser')
+def collect_job_cards_from_page(html):
+    print(html)
+    soup = BeautifulSoup(html, 'html.parser')
     cards = soup.find_all('div', 'job-search-card')
-    return cards
+    return cards,soup
 
 
 def sleep_for_random_interval():
@@ -118,14 +118,14 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
         'loginCsrfParam': csrf,
         'trk': 'guest_homepage-basic_sign-in-submit',
     }
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
-    }
+    # headers = {
+    #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+    # }
     x= session.post(LOGIN_URL, headers=headers, data=login_information)
     print(x)
-    x = session.get('https://www.linkedin.com/jobs/search/?f_TPR=None&keywords=developer&location=dubai', headers=headers)
-    print(x.text)
-    sleep(3)
+    # x = session.get('https://www.linkedin.com/jobs/search/?f_TPR=None&keywords=developer&location=dubai', headers=headers)
+    # print(x.text)
+    # sleep(3)
     unique_jobs = set()  # track job urls to avoid collecting duplicate records
     print("Starting to scrape indeed for `{}` in `{}`".format(job_title, job_location))
     url = generate_url(domain, date_posted, job_title, job_location)
@@ -137,7 +137,7 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
         # print(html)
         if not html:
             break
-        cards = collect_job_cards_from_page(soup, html)
+        cards,soup = collect_job_cards_from_page(html)
         for card in cards:
             print(card)
             record = extract_job_card_data(card)
