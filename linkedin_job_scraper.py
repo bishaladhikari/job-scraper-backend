@@ -20,7 +20,6 @@ class Linkedin:
 
 
   def Scrape(title, loc, output, date_posted):
-    mainUrl = 'https://www.linkedin.com'
     LINKEDIN_EMAIL = config('LINKEDIN_EMAIL', '')
     LINKEDIN_PASSWORD = config('LINKEDIN_PASSWORD', '')
 
@@ -59,7 +58,7 @@ class Linkedin:
       except:
         post_date = ''
       try:
-        job_url = Linkedin.mainUrl  + job.find('a', {'class': 'job-card-list__title'})['href']
+        job_url = 'https://www.linkedin.com'  + job.find('a', {'class': 'job-card-list__title'})['href']
       except:
         job_url = ''
 
