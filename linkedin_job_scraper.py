@@ -27,12 +27,14 @@ class Linkedin:
     password = LINKEDIN_PASSWORD
 
     try:
+      print("logging in in try")
       driver.get("https://www.linkedin.com")
       driver.find_element_by_id('session_key').send_keys(email)
       el = driver.find_element_by_id('session_password')
       el.send_keys(password)
       el.send_keys(Keys.ENTER)
     except:
+      print("already loggedin")
       pass
     driver.get(Linkedin.url(title, loc))
     print('Scrapping this url ' + Linkedin.url(title, loc))
