@@ -36,6 +36,7 @@ def givemejson(title):
 
 
 def main(domain, date_posted, job_title, job_location, filepath, email=None):
+
     job_base_url = 'https://www.gulftalent.com'
     save_record_to_csv(None, filepath, create_new_file=True)
     jobs = givemejson(job_title)
@@ -43,10 +44,10 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
         datetime_time = datetime.fromtimestamp(job['posted_date_ts'])
         d1 = datetime.now()
         delta = d1 - datetime_time
-        if (delta.days <= int(date_posted)):
+        if date_posted == '' or date_posted == None:
             result = job['title'], job['company_name'], job['location'], '', str(delta.days) + ' days ago', job_base_url + job['link']
             save_record_to_csv(result, filepath)
-        elif date_posted == '' :
+        elif (delta.days <= int(date_posted)):
             result = job['title'], job['company_name'], job['location'], '', str(delta.days) + ' days ago', job_base_url + job['link']
             save_record_to_csv(result, filepath)
         else:

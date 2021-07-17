@@ -10,7 +10,7 @@ from decouple import config
 
 options = webdriver.ChromeOptions()
 options.add_argument('--headless')
-driver = webdriver.Chrome(options=options)
+driver = webdriver.Chrome(config('CHROME_DRIVER'),options=options)
 
 class Linkedin:
   mainUrl = 'https://www.linkedin.com'
@@ -61,7 +61,6 @@ class Linkedin:
 
       record = job_title, company, location, job_summary, post_date, job_url
       Linkedin.save_record_to_csv(record, output)
-    driver.close()
 
   def save_record_to_csv(record, filepath, create_new_file=False):
     header = ["JobTitle", "Company", "Location", "Summary", "PostDate", "JobUrl"]
