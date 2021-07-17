@@ -15,6 +15,14 @@ driver = webdriver.Chrome(options=options)
 class Linkedin:
 
   # Scrape('developer', 'dubai', 'output.xlsx', 'acs')
+  def url(title, location):
+    return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
+
+  driver.get("https://www.linkedin.com")
+  driver.find_element_by_id('session_key').send_keys(email)
+  el = driver.find_element_by_id('session_password')
+  el.send_keys(password)
+  el.send_keys(Keys.ENTER)
 
   def Scrape(title, loc, output, date_posted):
     mainUrl = 'https://www.linkedin.com'
@@ -24,14 +32,6 @@ class Linkedin:
     email = LINKEDIN_EMAIL
     password = LINKEDIN_PASSWORD
 
-    def url(title, location):
-      return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
-
-    driver.get("https://www.linkedin.com")
-    driver.find_element_by_id('session_key').send_keys(email)
-    el = driver.find_element_by_id('session_password')
-    el.send_keys(password)
-    el.send_keys(Keys.ENTER)
 
     driver.get(Linkedin.url(title, loc))
     print('Scrapping this url ' + Linkedin.url(title, loc))
