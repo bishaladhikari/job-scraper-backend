@@ -6,15 +6,19 @@ from openpyxl import load_workbook
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from decouple import config
+
 options = webdriver.ChromeOptions()
-options.add_argument('--headless')
-driver = webdriver.Chrome(executable_path='C:/chrome_driver/chromedriver.exe', options=options)
+# options.add_argument('--headless')
+driver = webdriver.Chrome(executable_path="C:\\Users\\Bishal\\Downloads\chromedriver_win32\\chromedriver.exe", options=options)
 
 class Linkedin:
   mainUrl = 'https://www.linkedin.com'
+  LINKEDIN_EMAIL = config('LINKEDIN_EMAIL', '')
+  LINKEDIN_PASSWORD = config('LINKEDIN_PASSWORD', '')
 
-  email = ''
-  password = ''
+  email = LINKEDIN_EMAIL
+  password = LINKEDIN_PASSWORD
   def url(title, location):
     return 'https://www.linkedin.com/jobs/search?keywords=' + title + '&location=' + location + '&geoId=&trk=homepage-jobseeker_jobs-search-bar_search-submit&position=1&pageNum=0'
   driver.get("https://www.linkedin.com")
@@ -22,6 +26,7 @@ class Linkedin:
   el = driver.find_element_by_id('session_password')
   el.send_keys(password)
   el.send_keys(Keys.ENTER)
+  # Scrape('developer', 'dubai', 'output.xlsx', 'acs')
 
   def Scrape(title, loc, output, date_posted):
     driver.get(Linkedin.url(title, loc))
@@ -73,13 +78,6 @@ class Linkedin:
       wb.save(filepath)
 
 
-
-
 # Linkedin.Scrape('developer', 'dubai', 'output.xlsx','acs')
-
-
-
-
-
 
 
