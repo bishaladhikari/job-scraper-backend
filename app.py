@@ -5,7 +5,7 @@ import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 options = webdriver.ChromeOptions()
-# options.add_argument('--headless')
+options.add_argument('--headless')
 driver = webdriver.Chrome(options=options)
 
 app = Flask(__name__)
