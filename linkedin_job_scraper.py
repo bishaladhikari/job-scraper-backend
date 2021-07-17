@@ -10,7 +10,7 @@ from decouple import config
 
 options = webdriver.ChromeOptions()
 # options.add_argument('--headless')
-driver = webdriver.Chrome(executable_path="C:\\Users\\Bishal\\Downloads\chromedriver_win32\\chromedriver.exe", options=options)
+driver = webdriver.Chrome(executable_path=config("CHROME_DRIVER",''), options=options)
 
 class Linkedin:
   mainUrl = 'https://www.linkedin.com'
