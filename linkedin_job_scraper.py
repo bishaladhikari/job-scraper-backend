@@ -32,7 +32,7 @@ class Linkedin:
     driver.get(Linkedin.url(title, loc))
     print('Scrapping this url ' + Linkedin.url(title, loc))
     job_cards = bs(driver.page_source, 'html.parser').find_all('li', {'class': 'jobs-search-results__list-item'})
-    Linkedin.save_record_to_csv(None, output)
+    Linkedin.save_record_to_csv(None, output,create_new_file=True)
     for job in job_cards:
       try:
         job_title = job.find('a', {'class': 'job-card-list__title'}).text.strip()
