@@ -31,7 +31,7 @@ class Linkedin:
   def Scrape(title, loc, output, date_posted):
     driver.get(Linkedin.url(title, loc))
     print('Scrapping this url ' + Linkedin.url(title, loc))
-    job_cards = bs(driver.page_source, features="lxml").find_all('li', {'class': 'jobs-search-results__list-item'})
+    job_cards = bs(driver.page_source, 'html.parser').find_all('li', {'class': 'jobs-search-results__list-item'})
     for job in job_cards:
       try:
         job_title = job.find('a', {'class': 'job-card-list__title'}).text.strip()
