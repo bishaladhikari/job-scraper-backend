@@ -8,6 +8,7 @@ from flask.helpers import send_file, send_from_directory
 from flask_cors import CORS, cross_origin
 import indeed_job_scraper
 import linkedin_job_scraper
+import monstergulf_job_scraper
 from decouple import config
 import gulftalent_job_scraper
 
@@ -35,6 +36,8 @@ def scraper():
         linkedin_job_scraper.main("linkedin.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     elif 'indeed' in domain:
         indeed_job_scraper.main("ae.indeed.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
+    elif 'monstergulf' in domain:
+        monstergulf_job_scraper.main("monstergulf.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     else:
         gulftalent_job_scraper.main("gulftalent.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     return download_file(title)
