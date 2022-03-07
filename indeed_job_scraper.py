@@ -120,7 +120,8 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
             if 'Just posted' in raw_date or 'Today' in raw_date:
                 date = 0
             else:
-                date = int(raw_date.replace('days ago', '').replace('day ago', '').replace('+', ''))
+                date = (raw_date.replace('days ago', '').replace('day ago', '').replace('+', ''))
+                date = int(date.replace('Posted', '').replace('Post', '').replace('+', ''))
 
             if date_posted == None:
                 if not record[-1] in unique_jobs:
@@ -133,7 +134,6 @@ def main(domain, date_posted, job_title, job_location, filepath, email=None):
 
             else:
                 pass
-            print(record[4])
 
         sleep_for_random_interval()
         url = find_next_page(soup)

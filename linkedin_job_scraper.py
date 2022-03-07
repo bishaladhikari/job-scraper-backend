@@ -123,6 +123,7 @@ def extract_job_card_data(card):
 def main(domain, date_posted, job_title, job_location, filepath, email=None):
     unique_jobs = set()  # track job urls to avoid collecting duplicate records
     print("Starting to scrape indeed for `{}` in `{}`".format(job_title, job_location))
+    job_location = 'dubai' if job_location.lower() == 'uae' else job_location 
     url = generate_url(domain, date_posted, job_title, job_location)
     save_record_to_csv(None, filepath, create_new_file=True)
 
