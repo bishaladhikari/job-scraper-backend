@@ -5,7 +5,7 @@ pip install -r requirements.txt
 flask run
 
 ### Test url
-127.0.0.1:5000?title=python&loc=dubai
+127.0.0.1:5000?title=python&loc=dubai&domain=linkedin
 
 Frontend Demo
 https://job-scraper-35fd5.web.app/search-result?title=senior%20managers&loc=dubai&domain=linkedin&search=true
