@@ -10,6 +10,7 @@ import indeed_job_scraper
 import linkedin_job_scraper
 from decouple import config
 import gulftalent_job_scraper
+import edarabia_job_scraper
 
 
 OUTPUT_DIR = config('OUTPUT_DIR', '')
@@ -35,6 +36,8 @@ def scraper():
         linkedin_job_scraper.main("linkedin.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     elif 'indeed' in domain:
         indeed_job_scraper.main("ae.indeed.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
+    elif 'edarabia' in domain:
+        edarabia_job_scraper.main("edarabia.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     else:
         gulftalent_job_scraper.main("gulftalent.com", date_posted, title, loc, OUTPUT_DIR + 'results.xlsx')
     return download_file(title)
